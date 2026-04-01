@@ -1,36 +1,51 @@
 {
   "expo": {
-    "name": "CIS-Chessy-App",
-    "slug": "CIS-Chessy-App",
+    "name": "CIS Chessy",
+    "slug": "cis-chessy-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1D3557"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kyliansanfourche.cischessy"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1D3557"
       },
-      "edgeToEdgeEnabled": true
+      "package": "com.kyliansanfourche.cischessy",
+      "permissions": [
+        "NOTIFICATIONS",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-mail-composer"
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#E63946"
+        }
+      ],
+      "expo-document-picker"
     ],
     "extra": {
       "eas": {
-        "projectId": "f4cfb56b-98e0-41f7-a0fa-88fd57749faf"
+        "projectId": ""
       }
     }
   }

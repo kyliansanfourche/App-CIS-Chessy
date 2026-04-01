@@ -12,6 +12,7 @@ import {
   Moon, Sun
 } from 'lucide-react-native';
 
+// --- CONFIGURATION FIREBASE ---
 const firebaseConfig = {
   apiKey: "AIzaSyCqv0evg0gO43oTiVpyi2Lp_6PbpQTFkpc",
   authDomain: "cis-chessy-app.firebaseapp.com",
@@ -225,7 +226,6 @@ export default function App() {
       return (
         <SafeAreaView style={styles.loginContainer}>
           <StatusBar barStyle="light-content" />
-          {/* BOUTON MODE SOMBRE SUR LE LOGIN */}
           <TouchableOpacity style={styles.themeToggleLogin} onPress={() => setIsDarkMode(!isDarkMode)}>
             {isDarkMode ? <Sun color="#FFF" size={26} /> : <Moon color="#FFF" size={26} />}
           </TouchableOpacity>
