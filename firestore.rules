@@ -1,0 +1,52 @@
+rules_version = '2';
+
+// Règles de sécurité Firestore pour CIS Chessy.
+//
+// IMPORTANT : l'app n'utilise pas encore Firebase Authentication pour identifier QUI se
+// connecte (elle compare identifiant/mot de passe stockés dans le document Firestore lui-même).
+// Ces règles exigent donc uniquement une authentification anonyme Firebase (obligatoire pour
+// utiliser l'app depuis la version actuelle), ce qui empêche un script externe d'accéder
+// directement à la base sans jamais ouvrir l'app. Elles ne peuvent PAS distinguer un compte
+// "admin" d'un compte "user" côté serveur : cette vérification reste faite côté client.
+//
+// -> Si les données sont sensibles (mots de passe en clair, coordonnées des pompiers), la
+// vraie protection à prévoir en V2 est de migrer vers Firebase Authentication (avec custom
+// claims pour le rôle) et de passer les actions sensibles (valider un compte, changer un rôle,
+// diffuser une alerte) par des Cloud Functions plutôt que des écritures Firestore directes
+// depuis le client.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn();
+
+      // Un nouveau compte doit toujours être créé en attente de validation, avec le rôle de
+      // base : impossible pour un client de s'auto-valider ou de s'auto-promouvoir admin.
+      allow create: if isSignedIn()
+        && request.resource.data.role == 'user'
+        && request.resource.data.isValidated == false;
+
+      allow update, delete: if isSignedIn();
+    }
+
+    match /shifts/{shiftId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /alerts/{alertId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /documents/{documentId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /interventions/{interventionId} {
+      allow read, write: if isSignedIn();
+    }
+  }
+}
